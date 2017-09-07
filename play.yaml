@@ -1,0 +1,23 @@
+- hosts: jenkins
+  any_errors_fatal: yes
+  vars_prompt:
+    name: "confirmation"
+    prompt: "Are you sure you want to run this playbook? Recommended running in --check mode first to verify hosts and roles that are to be run. Answer with 'YES'"
+    default: "NO"
+    private: no
+  tasks:
+    - name: Check Confirmation
+      fail: msg="Playbook run confirmation failed"
+      when: confirmation != "YES"
+  tags:
+    - always
+
+
+
+- hosts: jenkins
+  gather_facts: false
+  remote_user: ansible
+  roles:
+    - jenkins_install
+  tags:
+    - install

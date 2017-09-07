@@ -1,0 +1,17 @@
+# create a directory 
+# push the shell script
+# run the shell script
+
+- name: create direcory staging and jenkins
+  file: path=/opt/jenkins state=directory
+  become_user: root
+
+- stat: path=/opt/jenkins
+  register: jenkins_path
+
+- name: move 
+  copy: src=/etc/ansible/ansible-jenkins/denpendencies.sh dest=/opt/jenkins/ mode=0777 owner=ansible group=ansible
+
+- name: Execute the script
+  command: sh /opt/jenkins/test.sh
+
